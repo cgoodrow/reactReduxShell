@@ -1,0 +1,1 @@
+﻿export const SIMPLE_ACTION = 'glossary/simple#simpleAction';
