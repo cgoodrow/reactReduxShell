@@ -1,0 +1,1 @@
+﻿export const GET_GLOSSARY_ITEMS = 'glossary/glossary#getGlossaryItems';

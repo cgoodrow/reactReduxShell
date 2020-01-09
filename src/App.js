@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { simple } from './reducers/simple';
+import { getToken } from './reducers/authorization';
+import { getGlossaryItems } from './reducers/glossary';
 import { connect } from 'react-redux';
 
-const App = ({ simple, simpleReducer }) => {
+const App = ({ simple, simpleReducer, getToken, getGlossaryItems, glossaryItem }) => {
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getToken();
+        }
+
+        fetchData();
+    },[]);
+
     const handleButtonClick = () => {
         const data = {
             name: 'Chris',
@@ -14,7 +25,11 @@ const App = ({ simple, simpleReducer }) => {
         simple(data);
     }
 
-    console.log('simpleReducer', simpleReducer);
+    const handleGetGlossaryItem = async () => {
+        await getGlossaryItems();
+    }
+
+    console.log('glossaryItem', glossaryItem);
   return (
     <div className="App">
       <header className="App-header">
@@ -31,6 +46,7 @@ const App = ({ simple, simpleReducer }) => {
           Learn React
         </a>
               <button type="button" className="btn" onClick={() => handleButtonClick()}>Click Me</button>
+              <button type="button" className="btn" onClick={() => handleGetGlossaryItem()}>Get Glossary</button>
       </header>
     </div>
   );
@@ -38,10 +54,13 @@ const App = ({ simple, simpleReducer }) => {
 
 const mapStateToProps = state => ({
     simpleReducer: state.simple,
+    glossaryItem: state.glossary,
 });
 
 const mapDispatchToProps = {
     simple,
+    getToken,
+    getGlossaryItems,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
